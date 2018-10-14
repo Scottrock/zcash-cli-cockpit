@@ -1,14 +1,18 @@
 // Example Zcash Config
-var symbol = "ZEC"
-var zcashd = "zcashd";
-var zcashcli = "zcash-cli";
-var zcash_getinfo_rate = 60000;
-var explorer_transactions_url = "https://explorer.zcha.in/transactions/";
+//var symbol = "ZEC"
+//var zcashd = "zcashd";
+//var zcashcli = "zcash-cli";
+//var switch1 = "";
+//var switch2 = "";
+//var zcash_getinfo_rate = 60000;
+//var explorer_transactions_url = "https://explorer.zcha.in/transactions/";
 
 // Example Zclassic Config
 //var symbol = "ZCL"
 //var zcashd = "zcashd";
 //var zcashcli = "zclassic-cli";
+//var switch1 = "";
+//var switch2 = "";
 //var zcash_getinfo_rate = 60000;
 //var explorer_transactions_url = "http://zclexplorer.org/tx/";
 
@@ -16,20 +20,59 @@ var explorer_transactions_url = "https://explorer.zcha.in/transactions/";
 //var symbol = "ZEN"
 //var zcashd = "zend";
 //var zcashcli = "zen-cli";
+//var switch1 = "";
+//var switch2 = "";
 //var zcash_getinfo_rate = 60000;
 //var explorer_transactions_url = "https://explorer.zen-solutions.io/tx/";
+
+// Example ZenCashTestnet Config
+var symbol = "ZENT"
+var zcashd = "zend";
+var zcashcli = "zen-cli";
+var t_str_init = "/^[R]/";
+var z_str_init = "/^[z]/";
+var switch1 = "-rpcport=18231";
+var switch2 = "";
+var zcash_getinfo_rate = 60000;
+var explorer_transactions_url = "https://explorer-testnet.zen-solutions.io/tx/";
 
 // Example Hush Config
 //var symbol = "HUSH"
 //var zcashd = "hushd";
 //var zcashcli = "hush-cli";
+//var switch1 = "";
+//var switch2 = "";
 //var zcash_getinfo_rate = 60000;
 //var explorer_transactions_url = "http://explorer.myhush.org/tx/";
+
+// Example BTCH Config
+//var symbol = "BTCH"
+//var zcashd = "komodod";
+//var zcashcli = "komodo-cli";
+//var t_str_init = "/^[R]/";
+//var z_str_init = "/^[z]/";
+//var switch1 = "-ac_name=BTCH";
+//var switch2 = "";
+//var zcash_getinfo_rate = 60000;
+//var explorer_transaction_url = "https://btch.kmdexplorer.io/tx/";
+
+// Example PIRATE Config
+//var symbol = "ARRR"
+//var zcashd = "komodod";
+//var zcashcli = "komodo-cli";
+//var t_str_init = "/^[R]/";
+//var z_str_init = "/^[z]/";
+//var switch1 = "-ac_name=PIRATE";
+//var switch2 = "";
+//var zcash_getinfo_rate = 60000;
+//var explorer_transaction_url = "https://pirate.kmdexplorer.io/tx/";
 
 // Example Komodo Config
 //var symbol = "KMD"
 //var zcashd = "komodod";
 //var zcashcli = "komodo-cli";
+//var switch1 = "";
+//var switch2 = "";
 //var zcash_getinfo_rate = 60000;
 //var explorer_transactions_url = "http://kmd.explorer.supernet.org/tx/";
 
@@ -37,6 +80,8 @@ var explorer_transactions_url = "https://explorer.zcha.in/transactions/";
 //var symbol = "BTCZ"
 //var zcashd = "zcashd";
 //var zcashcli = "bitcoinz-cli";
+//var switch1 = "";
+//var switch2 = "";
 //var zcash_getinfo_rate = 60000;
 //var explorer_transactions_url = "https://bitcoinz.ph/tx/";
 
@@ -44,5 +89,7 @@ var explorer_transactions_url = "https://explorer.zcha.in/transactions/";
 //var symbol = "VOTE"
 //var zcashd = "zcashd";
 //var zcashcli = "votecoin-cli";
+//var switch1 = "";
+//var switch2 = "";
 //var zcash_getinfo_rate = 60000;
 //var explorer_transactions_url = "http://explorer.votecoin.site/tx/";

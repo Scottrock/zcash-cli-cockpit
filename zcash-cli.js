@@ -300,7 +300,7 @@ function zcash_cli_getinfo() {
     if (zcash_getinfo_timeout != 0) {
         clearTimeout(zcash_getinfo_timeout);
     }
-    var cmd = [zcashcli, "getinfo"];
+    var cmd = [zcashcli, switch1, switch2, "getinfo"];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -348,7 +348,7 @@ function proc_zcash_cli_getinfo(data) {
 }
 
 function zcash_cli_z_getblockinfo(block) {
-    var cmd = [zcashcli, "getblockhash", block.toString()];
+    var cmd = [zcashcli, switch1, switch2, "getblockhash", block.toString()];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -357,7 +357,7 @@ function zcash_cli_z_getblockinfo(block) {
 }
 function proc_zcash_cli_z_getblockinfo(bhash) {
     // look info up for block hash
-    var cmd = [zcashcli, "getblock", bhash.toString().trim()];
+    var cmd = [zcashcli, switch1, switch2, "getblock", bhash.toString().trim()];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -387,7 +387,7 @@ function proc_zcash_cli_z_getblock(data) {
 }
 
 function zcash_cli_z_gettxout(txid, n) {
-    var cmd = [zcashcli, "gettxout", txid, n];
+    var cmd = [zcashcli, switch1, switch2, "gettxout", txid, n];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -442,7 +442,7 @@ function proc_zcash_cli_gettxout(txid, n, data) {
 // 	zcash-cli z_gettotalbalance
 //
 function zcash_cli_z_gettotalbalance() {
-    var cmd = [zcashcli, "z_gettotalbalance"];
+    var cmd = [zcashcli, switch1, switch2, "z_gettotalbalance"];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -473,7 +473,7 @@ function proc_zcash_cli_z_gettotalbalance(data) {
 }
 
 function zcash_cli_z_gettotalbalance_unconfirmed() {
-    var cmd = [zcashcli, "z_gettotalbalance", "0"];
+    var cmd = [zcashcli, switch1, switch2, "z_gettotalbalance", "0"];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -518,7 +518,7 @@ function proc_zcash_cli_z_gettotalbalance_unconfirmed(data) {
 // 	zcash-cli getnettotals
 //
 function zcash_cli_getnettotals() {
-    var cmd = [zcashcli, "getnettotals"];
+    var cmd = [zcashcli, switch1, switch2, "getnettotals"];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -557,7 +557,7 @@ function schedule_zcash_cli_getinfo_refresh(method) {
 }
 
 function zcash_cli_getaddressesbyaccount() {
-    var cmd = [zcashcli, "getaddressesbyaccount", ""];
+    var cmd = [zcashcli, switch1, switch2, "getaddressesbyaccount", ""];
     var proc = cockpit.spawn(cmd);
     proc.done(function (data){
         var jobj = JSON.parse(data);
@@ -573,7 +573,7 @@ function zcash_cli_getaddressesbyaccount() {
 // 	zcash-cli getmininginfo
 //
 function zcash_cli_getmininginfo() {
-    var cmd = [zcashcli, "getmininginfo"];
+    var cmd = [zcashcli, switch1, switch2, "getmininginfo"];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -607,7 +607,7 @@ function proc_zcash_cli_getmininginfo(data) {
 // 	zcash-cli listunspent
 //
 function zcash_cli_listunspent() {
-    var cmd = [zcashcli, "listunspent"];
+    var cmd = [zcashcli, switch1, switch2, "listunspent"];
     var proc = cockpit.spawn(cmd);
     proc.done(proc_zcash_cli_listunspent);
     proc.fail(proc_zcash_cli_fail);
@@ -678,7 +678,7 @@ function do_shield_all(minBal, maxBal, extrafee)
 		  count++;
 		}
     }
-	
+
 	alert("Payment Operations Created: "+ count +"]\nTotal Shielded: "+round(total_shielded).toFixed(8));
 }
 
@@ -723,21 +723,21 @@ function zcash_onClickShield(e) {
         alert("Insufficient funds for transaction.\nAvailable amount is " + maxamount + " " + symbol);
         return;
     }
-	
+
     zcash_cli_shield(zcash_shield_taddresses.val().trim(), zcash_shield_zaddresses.val().trim(), amount.toFixed(8), extrafee);
 }
 
 
 function zcash_cli_queued_shield(taddr, zaddr, amount, fee) {
-	
+
 	var ztx = "[{\"amount\": " + amount.toString() + ", \"address\": \"" + zaddr.toString() + "\"}]";
 
     //zcash_cli_op_running = true;
-    var cmd = [zcashcli, "z_sendmany", taddr, ztx];
+    var cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx];
     if (fee > 0.0001) {
-		cmd = [zcashcli, "z_sendmany", taddr, ztx, "1", fee.toFixed(8)];
+		cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx, "1", fee.toFixed(8)];
 	}
-	
+
     zcash_output.empty();
     zcash_output.append(cmd.join(" "));
     var proc = cockpit.spawn(cmd, {
@@ -751,11 +751,11 @@ function zcash_cli_shield(taddr, zaddr, amount, fee) {
     var ztx = "[{\"amount\": " + amount.toString() + ", \"address\": \"" + zaddr.toString() + "\"}]";
 
     zcash_cli_op_running = true;
-    var cmd = [zcashcli, "z_sendmany", taddr, ztx];
+    var cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx];
     if (fee > 0.0001) {
-		cmd = [zcashcli, "z_sendmany", taddr, ztx, "1", fee.toFixed(8)];
+		cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx, "1", fee.toFixed(8)];
 	}
-	
+
     zcash_output.empty();
     zcash_output.append(cmd.join(" "));
 
@@ -770,7 +770,7 @@ function zcash_cli_shield(taddr, zaddr, amount, fee) {
 function zcash_cli_shield_coinbase(zaddr) {
 
     zcash_cli_op_running = true;
-    var cmd = [zcashcli, "z_shieldcoinbase", "*", zaddr];
+    var cmd = [zcashcli, switch1, switch2, "z_shieldcoinbase", "*", zaddr];
     zcash_output.empty();
     zcash_output.append(cmd.join(" "));
     var proc = cockpit.spawn(cmd, {
@@ -788,7 +788,7 @@ function zcash_cli_shield_coinbase(zaddr) {
 // 	zcash-cli z_listaddresses
 //
 function zcash_cli_list_zaddr() {
-    var cmd = [zcashcli, "z_listaddresses"];
+    var cmd = [zcashcli, switch1, switch2, "z_listaddresses"];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -812,7 +812,7 @@ function proc_zcash_cli_zaddr(data) {
     // do we need to generate a zaddr?
     if (shielded_balances[jobj[0]] == null) {
         alert("Private z-addr not found, generating a new private z-addr!");
-        var cmd = [zcashcli, "z_getnewaddress"];
+        var cmd = [zcashcli, switch1, switch2, "z_getnewaddress"];
         var proc = cockpit.spawn(cmd, {
             err: 'out'
         });
@@ -856,7 +856,7 @@ function proc_zcash_cli_zaddr(data) {
 }
 
 function zcash_cli_getbalance_for_zaddr(zaddr) {
-    var cmd = [zcashcli, "z_getbalance", zaddr];
+    var cmd = [zcashcli, switch1, switch2, "z_getbalance", zaddr];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -900,11 +900,11 @@ function zcash_onClickSendTo(e) {
         alert("Operation already in progress...");
         return;
     }
-	
+
     zcash_sendto_to = $(".zcash-sendto-to");
     zcash_sendto_amount = $(".zcash-sendto-amount");
     zcash_sendto_includefee = $(".zcash-sendto-includefee");
-	
+
 	if (isEmpty(zcash_sendto_to.val())) {
 		alert("Invalid Send To Address");
         return;
@@ -913,9 +913,9 @@ function zcash_onClickSendTo(e) {
 		alert("Invalid Amount");
         return;
 	}
-		
-	
-	var cmd = [zcashcli, "sendtoaddress", zcash_sendto_to.val(), zcash_sendto_amount.val(), "", "", true];
+
+
+	var cmd = [zcashcli, switch1, switch2, "sendtoaddress", zcash_sendto_to.val(), zcash_sendto_amount.val(), "", "", true];
 
     zcash_output.empty();
     zcash_output.append(cmd.join(" "));
@@ -955,7 +955,7 @@ function zcash_onClickSend(e) {
         alert("Insufficient funds for transaction.");
         return;
     }
-	
+
     var to_addrs = [];
     var amounts = [];
     var memos = [];
@@ -1023,12 +1023,12 @@ function zcash_onClickSend(e) {
         alert("Insufficient funds for transaction.\nAvailable amount is " + maxamount + " "+symbol);
         return;
     }
-	
+
     if (extrafee > total_amount) {
         alert("Tx Fee can not be greater than amount!");
         return;
     }
-	
+
     confirmHtml += "Tx Fee: " + extrafee.toString() + " "+symbol+"\n";
     confirmHtml += "Total Cost: " + round(total_amount + extrafee).toString() + " "+symbol+"\n\n";
 
@@ -1048,7 +1048,7 @@ function zcash_wait_operation_start(title) {
     zcash_wait.empty();
     zcash_wait_status.empty();
     zcash_wait.css("color", "");
-    zcash_wait.append("<img class=\"zcash-wait-image\" id=\"zcash-wait-image\" src=\"logo-"+symbol+".jpg\" alt=\"please wait\" align=\"left\" style=\"padding-right: 12px; animation:spin 4s linear infinite;\" /> <label>" + title.toString() + "</label> <br />");
+    zcash_wait.append("<img class=\"zcash-wait-image\" id=\"zcash-wait-image\" src=\"logo-"+symbol+".png\" alt=\"please wait\" align=\"left\" style=\"padding-right: 12px; animation:spin 4s linear infinite;\" /> <label>" + title.toString() + "</label> <br />");
     showTab(null, "zcashTabWait");
 }
 function zcash_wait_operation_progress(msg) {
@@ -1089,14 +1089,14 @@ function zcash_cli_sendmany(from_addr, to_addrs, amounts, memos, fee) {
         if (isEmpty(to_addrs[i])) {
             continue;
         }
-        // make sure the addr string starts with z or t
-        if ((to_addrs[i].toString().match("^z") == null && to_addrs[i].toString().match("^t")) == null) {
+        // make sure the addr string starts with correct identifier
+        if ((to_addrs[i].toString().match(z_str_init) == null && to_addrs[i].toString().match(t_str_init)) == null) {
             continue;
         }
 
         var tx = "{\"amount\": " + parseFloat(amounts[i].toString()).toFixed(8) + ", \"address\": \"" + to_addrs[i].toString() + "\"}, ";
         // memos only work for z-addr
-        if (memos[i].length > 0 && to_addrs[i].toString().match("^z") != null)
+        if (memos[i].length > 0 && to_addrs[i].toString().match(z_str_init) != null)
             tx = "{\"amount\": " + parseFloat(amounts[i].toString()).toFixed(8) + ", \"memo\": \"" + utf8.encode(memos[i].toString().trim()).hexEncode() + "\", \"address\": \"" + to_addrs[i].toString() + "\"}, ";
 
         ztx += tx;
@@ -1106,11 +1106,11 @@ function zcash_cli_sendmany(from_addr, to_addrs, amounts, memos, fee) {
     ztx += "]";
 
     zcash_cli_op_running = true;
-    var cmd = [zcashcli, "z_sendmany", from_addr, ztx];
+    var cmd = [zcashcli, switch1, switch2, "z_sendmany", from_addr, ztx];
     if (fee > 0.0001) {
-		cmd = [zcashcli, "z_sendmany", from_addr, ztx, "1", fee.toFixed(8)];
+		cmd = [zcashcli, switch1, switch2, "z_sendmany", from_addr, ztx, "1", fee.toFixed(8)];
 	}
-	
+
     zcash_output.empty();
     zcash_output.append(cmd.join(" "));
 
@@ -1131,7 +1131,7 @@ function proc_zcash_cli_send_opid(data) {
     zcash_wait_status.append("checking: " + zcash_monitor_opid);
 
     // monitor operation id
-    var cmd = [zcashcli, "z_getoperationstatus" /*, "[\""+zcash_monitor_opid.toString()+"\"]"*/];
+    var cmd = [zcashcli, switch1, switch2, "z_getoperationstatus" /*, "[\""+zcash_monitor_opid.toString()+"\"]"*/];
     var proc = cockpit.spawn(cmd, {
         err: 'out'
     });
@@ -1155,7 +1155,7 @@ function proc_zcash_cli_monitor_opid(data) {
             if (jobj[i]["status"] != "executing") {
                 doMonitor = false;
                 // complete transaction by getting the result
-                var cmd = [zcashcli, "z_getoperationresult" /*, "[\""+zcash_monitor_opid.toString()+"\"]"*/];
+                var cmd = [zcashcli, switch1, switch2, "z_getoperationresult" /*, "[\""+zcash_monitor_opid.toString()+"\"]"*/];
                 var proc = cockpit.spawn(cmd, {
                     err: 'out'
                 });
@@ -1203,7 +1203,7 @@ function proc_zcash_cli_result_opid(data) {
 // 	zcash-cli listtransactions
 //
 function zcash_cli_listtransactions() {
-    var cmd = [zcashcli, "listtransactions"];
+    var cmd = [zcashcli, switch1, switch2, "listtransactions"];
     var proc = cockpit.spawn(cmd);
     proc.done(proc_zcash_cli_listtransactions);
     proc.fail(proc_zcash_cli_fail);
@@ -1213,7 +1213,7 @@ function proc_zcash_cli_listtransactions(data) {
     var jobj = JSON.parse(data);
 
 	var today = new Date();
-	
+
     // gather up spendable balances
     $.each(jobj, function (i) {
 
@@ -1225,14 +1225,14 @@ function proc_zcash_cli_listtransactions(data) {
         var address = jobj[i]["address"];
         if (isEmpty(address))
             address = "* private z-addr *";
-		
+
 		var now = Date.now() / 1000;
 		var d = new Date(unix_epoch * 1000);
-		var diffSec = (now - unix_epoch); 
+		var diffSec = (now - unix_epoch);
         var date = dateFormat(d, "h:MM:ss TT");
 		if (diffSec > 86400)
 			date = dateFormat(d, "m/dd/yy");
-		
+
         var confs = jobj[i]["confirmations"];
 
         var rowData = gettransactionrowindex(txid);
@@ -1274,13 +1274,13 @@ function get_all_zaddr_received_transactions() {
     // TODO, this is not the perfered way
     // TODO some z-addr could have 1000's of transactions
 
-    var cmd = [zcashcli, "z_listaddresses"];
+    var cmd = [zcashcli, switch1, switch2, "z_listaddresses"];
     var proc = cockpit.spawn(cmd);
     proc.done(function (list) {
         var jobj = JSON.parse(list);
         $.each(jobj, function (i) {
 
-            cockpit.spawn([zcashcli, "z_listreceivedbyaddress", jobj[i].toString().trim()]).done(function (data) {
+            cockpit.spawn([zcashcli, switch1, switch2, "z_listreceivedbyaddress", jobj[i].toString().trim()]).done(function (data) {
 
                 var zaddr = jobj[i].toString().trim();
                 var shortzaddr = zaddr.substring(0, 7) + "..." + zaddr.substring((zaddr.toString().length - 7));
@@ -1318,7 +1318,7 @@ function show_z_listreceivedbyaddress(zaddr) {
 }
 
 function zcash_cli_z_listreceivedbyaddress(addr) {
-    var cmd = [zcashcli, "z_listreceivedbyaddress", addr.toString().trim()];
+    var cmd = [zcashcli, switch1, switch2, "z_listreceivedbyaddress", addr.toString().trim()];
     var proc = cockpit.spawn(cmd);
     proc.done(proc_zcash_cli_z_listreceivedbyaddress);
     proc.fail(proc_zcash_cli_fail);
@@ -1360,7 +1360,7 @@ function zcash_cli_input_run() {
     zcash_output.empty();
     zcash_cli_op_running = true;
 
-    var cmd = [zcashcli];
+    var cmd = [zcashcli, switch1];
     // tokenize the console input ",',[
     var argv = $("#zcash-cli-input-cmd").val().match(/"[^"]+"|\[[^\[]+\]|'[^']+'|\S+/g);
     for (var i in argv) {
