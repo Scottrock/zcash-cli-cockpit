@@ -32,15 +32,15 @@
 //var explorer_transactions_url = "https://explorer.zen-solutions.io/tx/";
 
 // Example ZenCashTestnet Config
-var symbol = "ZENT"
-var zcashd = "zend";
-var zcashcli = "zen-cli";
-var t_str_init = "^z";
-var z_str_init = "^z";
-var switch1 = "-rpcport=18231";
-var switch2 = "-rpcwait";
-var zcash_getinfo_rate = 60000;
-var explorer_transactions_url = "https://explorer-testnet.zen-solutions.io/tx/";
+//var symbol = "ZENT"
+//var zcashd = "zend";
+//var zcashcli = "zen-cli";
+//var t_str_init = "^z";
+//var z_str_init = "^z";
+//var switch1 = "-rpcport=18231";
+//var switch2 = "-rpcwait";
+//var zcash_getinfo_rate = 60000;
+//var explorer_transactions_url = "https://explorer-testnet.zen-solutions.io/tx/";
 
 // Example Hush Config
 //var symbol = "HUSH"
@@ -54,15 +54,15 @@ var explorer_transactions_url = "https://explorer-testnet.zen-solutions.io/tx/";
 //var explorer_transactions_url = "http://explorer.myhush.org/tx/";
 
 // Example BTCH Config
-//var symbol = "BTCH"
-//var zcashd = "komodod";
-//var zcashcli = "komodo-cli";
-//var t_str_init = "/^[R]/";
-//var z_str_init = "/^[z]/";
-//var switch1 = "-ac_name=BTCH";
-//var switch2 = "-rpcwait";
-//var zcash_getinfo_rate = 60000;
-//var explorer_transaction_url = "https://btch.kmdexplorer.io/tx/";
+var symbol = "BTCH"
+var zcashd = "komodod";
+var zcashcli = "komodo-cli";
+var t_str_init = "^R";
+var z_str_init = "^z";
+var switch1 = "-ac_name=BTCH";
+var switch2 = "-rpcwait";
+var zcash_getinfo_rate = 60000;
+var explorer_transaction_url = "https://btch.kmdexplorer.io/tx/";
 
 // Example PIRATE Config
 //var symbol = "ARRR"
