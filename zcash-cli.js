@@ -22,6 +22,7 @@ var zcash_cli_op_running = false;
 
 // arrays to hold balances for addressses
 var taddr_balances = {}; // t-addr's
+var taddr_segids = {}; // SEG ID's
 var shielded_balances = {}; // z-addr's
 var shielded_balance = 0.0; // z-addr total balance
 
@@ -631,6 +632,7 @@ function proc_zcash_cli_listunspent(data) {
             coinsAvailable = true;
             if (!taddr_balances.hasOwnProperty(jobj[i]["address"])) {
                 taddr_balances[jobj[i]["address"]] = jobj[i]["amount"];
+                taddr_segids[jobj[i]["address"]] = jobj[i]["segid"];
             } else {
                 taddr_balances[jobj[i]["address"]] = round(taddr_balances[jobj[i]["address"]] + jobj[i]["amount"]);
             }
@@ -656,7 +658,7 @@ function proc_zcash_cli_listunspent(data) {
         }));
         // generate html for balances
         //var html = "<b>" + taddr_balances[name] + "</b> <small>"+symbol+"</small> &rarr; <i><small>t-addr:</small> " + name + "</i><br />";
-        var html = "<b>" + taddr_balances[name] + "</b> <small>"+symbol+"</small> &rarr;" + " segid: " +taddr_balances[name] + " <i><small>t-addr:</small> " + name + "</i><br />";
+        var html = "<b>" + taddr_balances[name] + "</b> <small>"+symbol+"</small> &rarr;" + " segid: " +taddr_segids[name] + " <i><small>t-addr:</small> " + name + "</i><br />";
         zcash_shield_taddresses_info.append(html);
         zcash_balance_taddresses_info.append(html);
     }
