@@ -1,0 +1,391 @@
+<html>
+
+<head>
+    <title>zcash-cli-cockpit</title>
+    <meta charset="utf-8">
+    <link href="../base1/cockpit.css" type="text/css" rel="stylesheet">
+    <link href="jquery.dataTables.min.css" type="text/css" rel="stylesheet">
+	<script src="jquery-3.3.1.min.js"></script>
+    <script src="../base1/cockpit.js"></script>
+    <script src="jquery.dataTables.min.js"></script>
+	<script src="date.format.js"></script>
+    <style>
+        ul.tab {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        ul.tab li {
+            float: left;
+        }
+
+        ul.tab li a {
+            display: inline-block;
+            color: black;
+            text-align: center;
+            padding: 5px 12px;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+        ul.tab li a:hover {
+            background-color: #ddd;
+        }
+
+        ul.tab li a:focus,
+        .active {
+            background-color: #ccc;
+        }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        .roundedbox {
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .zcash-dialog-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .zcash-dialog-modal-content {
+            background-color: #fefefe;
+            margin: 2% auto;
+            padding: 0px 16px 8px 16px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .zcash-dialog-close {
+            color: #aaa;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            padding-top: 0px;
+        }
+
+        .zcash-dialog-close:hover,
+        .zcash-dialog-close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .zcash-wait-image {
+            margin: 18px;
+            width: 64px;
+            -webkit-animation:spin 4s linear infinite;
+            -moz-animation:spin 4s linear infinite;
+            animation:spin 4s linear infinite;
+        }
+        @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+        @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+        @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+    </style>
+</head>
+
+<body ccID="2932" class="page-ct">
+<script ccID="2956" src="config.js"></script>
+<script ccID="2991" src="utf8.js"></script>
+
+<div ccID="3026" id="zcash-dialog-model" class="zcash-dialog-modal">
+    <div ccID="3088" class="zcash-dialog-modal-content">
+        <span ccID="3138" class="zcash-dialog-close">x</span>
+        <h2 ccID="3189" id="zcash-dialog-title">...</h2>
+        <hr ccID="3235"/>
+        <p ccID="3250"><span ccID="3253" id="zcash-dialog-text">...</span></p>
+    </div>
+</div>
+
+<div ccID="3320" class="container-fluid">
+
+    <img ccID="3357" id="logo" style="float: left; height: 32px; padding: 0px; margin: 0px; padding-right: 12px;" src="logo-ZEC.png" alt="logo" />
+    <div ccID="3493" style="padding-top: 6px;">
+        <h2 ccID="3534" style="margin-top: 0px; padding-top: 0px; float: left;"><span ccID="3594" class="csymbol">ZEC</span> cockpit plugin</h2>
+        <button ccID="3656" class="btn btn-default btn-primary" style="margin-left:6px;" id="zcash-refresh">Reload</button>
+    </div>
+    <div ccID="3777" style="clear: both;"></div>
+    <hr ccID="3815" style="margin-top: 6px; margin-bottom: 6px;"/>
+
+    <table ccID="3873">
+        <tr ccID="3890">
+            <td ccID="3908" style="min-width: 280px;">
+
+                <p ccID="3958" style="float: left; padding-left: 6px; padding-right: 12px; padding-top: 4px;">
+                    Balance: <b ccID="4071"><span ccID="4074" id="zcash-balance">...</span></b> <span ccID="4114" class="csymbol">ZCL</span> <!-- <br/> Shielded: <b><span
+                        id="zcash-pbalance">...</span></b> <span class="csymbol">ZEC</span><br/> Unshielded: <b><span id="zcash-tbalance">...</span></b>
+                    <span class="csymbol">ZEC</span><br/> -->
+                </p>
+                <p ccID="4433" style="float: left; padding-top: 4px; padding-right: 12px;">
+                    Block Height: <b ccID="4532"><span ccID="4535" id="zcash-block">...</span></b><br ccID="4572"/> Difficulty: <b ccID="4590"><span ccID="4593"
+                        id="zcash-difficulty">...</span></b><br ccID="4660"/> Network Hash/s: <b ccID="4682"><span ccID="4685" id="zcash-nethps">...</span></b><br ccID="4723"/>
+                </p>
+                <p ccID="4768" style="float: left; padding-top: 4px; padding-right: 12px;">
+                    Connections: <b ccID="4866"><span ccID="4869" id="zcash-connections">...</span></b><br ccID="4912"/> Recv: <b ccID="4924"><span ccID="4927"
+                        id="zcash-totalrecv">...</span></b><br ccID="4993"/> Sent: <b ccID="5005"><span ccID="5008" id="zcash-totalsend">...</span></b><br ccID="5049"/>
+                </p>
+            </td>
+        </tr>
+        <tr ccID="5120">
+            <td ccID="5138" style="padding-left: 6px; padding-bottom: 12px;">
+                <span ccID="5209" id="zcash-errors" style="color: red;">...</span>
+            </td>
+        </tr>
+    </table>
+
+    <a ccID="5319" name="tabs"></a>
+
+    <ul ccID="5346" class="tab">
+        <li ccID="5372"><a ccID="5376" href="#tabs" class="tablinks" onclick="showTab(event, 'zcashTabBalance')">Balance</a></li>
+        <!-- <li><a href="#tabs" class="tablinks" onclick="showTab(event, 'zcashTabBlocks')">Blockchain</a></li> -->
+        <li ccID="5597"><a ccID="5601" href="#tabs" class="tablinks" onclick="showTab(event, 'zcashTabTransactions')">Transactions</a></li>
+        <!-- <li><a href="#tabs" class="tablinks" onclick="showTab(event, 'zcashTabShield')">Shield</a></li> -->
+        <li ccID="5828"><a ccID="5832" href="#tabs" class="tablinks" onclick="showTab(event, 'zcashTabSend')">Send Many</a></li>
+		<li ccID="5928"><a ccID="5932" href="#tabs" class="tablinks" onclick="showTab(event, 'zcashTabSendTo')">Send To</a></li>
+        <li ccID="6034"><a ccID="6038" href="#tabs" class="tablinks" onclick="showTab(event, 'zcashTabConsole')">Console</a></li>
+    </ul>
+
+<!-- Content of Balance TAB -->
+
+    <div ccID="6185" id="zcashTabBalance" class="tabcontent">
+        <!-- <p>
+            <label>Shielded Coins</label> <i>(Double Click on z-addr to view private transactions)</i> <br/>
+            <small>You may receive <span class="csymbol">ZEC</span> privately by giving out one of the addresses below.</small> <br />
+            <span id="zcash-balance-zaddresses-info">...</span>
+        </p> -->
+        <p ccID="6587">
+            <label ccID="6604">Public Coins</label> <br ccID="6632"/>
+            <span ccID="6651" id="zcash-balance-taddresses-info">...</span>
+        </p>
+        <p ccID="6726">
+            <label ccID="6743">Public Transparent Addresses</label> <!--<i>(Double Click on z-addr to view private transactions)</i> --> <br ccID="6856" />
+            <small ccID="6876">You may receive <span ccID="6899" class="csymbol">ZEC</span> publicly by giving out one of the addresses below.</small> <br ccID="6991" />
+            <span ccID="7011" id="zcash-balance-taddresses-list">...</span>
+        </p>
+    </div>
+
+<!-- Content of Blocks TAB -->
+
+    <div ccID="7130" id="zcashTabBlocks" class="tabcontent">
+        <table ccID="7184" id="zcash-table-blocks" class="display" width="100%"></table>
+        <p ccID="7262"><i ccID="7265">The last 20 blocks observed will be shown.</i></p>
+    </div>
+
+<!-- Content of Transactions TAB -->
+
+    <div ccID="7378" id="zcashTabTransactions" class="tabcontent">
+        <p ccID="7438">Double Click transaction to view in block explorer. <!-- Note, transactions sent from private z-addr are not shown. --> </p>
+        <table ccID="7575" id="zcash-table-transactions" class="display" width="100%"></table>
+    </div>
+
+<!-- Contents of Shield TAB -->
+
+    <div ccID="7704" id="zcashTabShield" class="tabcontent">
+
+        <p ccID="7760">Your mined coins are currently stored in a public t-addr. Make them private by sending the entire balance to a z-addr.</p>
+
+        <table ccID="7897" class="cockpit-form-table">
+            <tr ccID="7945">
+                <td ccID="7967" valign="top">
+                    <div ccID="8006" class="roundedbox">
+						<label ccID="8038">Shield Transparent Funds</label><br ccID="8077"/>
+						<label ccID="8090" for="zcash-shield-zaddresses">To Address</label><br ccID="8145"/>
+                        <select ccID="8176" id="zcash-shield-zaddresses" style="margin-bottom: 6px;">
+                            <option ccID="8271" value="tn1">zaddr</option>
+                        </select><br ccID="8340"/>
+						<span ccID="8353" align="center"><small ccID="8374"><button ccID="8381" class="btn btn-default btn-info" id="zcash-shield-all">Shield All Balances</button><br ccID="8472" />						
+						- OR - <br ccID="8499" />
+                        <label ccID="8531" for="zcash-shield-taddresses">From Address</label><br ccID="8588"/>
+                        <select ccID="8619" id="zcash-shield-taddresses" style="margin-bottom: 6px;" onchange="if (this.selectedIndex >= 0) update_shield_amount();">
+                            <option ccID="8778" value="tn1">taddr</option>
+                        </select>
+                        <br ccID="8873"/>
+                        <label ccID="8904" for="zcash-shield-extrafee">Tx Fee</label><br ccID="8953"/>
+                        <input ccID="8984" id="zcash-shield-extrafee" type="text" value="0.0001"/>
+                        <br ccID="9072"/>
+                        <label ccID="9103" for="zcash-shield-amount">Amount</label><br ccID="9150"/>
+                        <input ccID="9181" id="zcash-shield-amount" type="text" value="0.0"/>
+                        <br ccID="9264"/>
+                        <div ccID="9295" style="margin-top: 8px; margin-bottom: 4px;">
+                            <button ccID="9375" class="btn btn-default btn-primary" id="zcash-shield">Shield Amount</button>
+                        </div>
+                    </div>
+
+					<div ccID="9528" class="roundedbox" style="margin-top: 8px; margin-bottom: 4px;">
+					  <label ccID="9606">Shield Coinbase Funds</label><br ccID="9642"/>
+						<label ccID="9655" for="zcash-shield-coinbase-zaddresses">To Address</label><br ccID="9719"/>
+                        <select ccID="9750" id="zcash-shield-coinbase-zaddresses" style="margin-bottom: 6px;">
+                            <option ccID="9854" value="tn1">zaddr</option>
+                        </select><br ccID="9923"/>
+                      <div ccID="9952" style="margin-top: 8px; margin-bottom: 4px;">
+					    <button ccID="10013" class="btn btn-default btn-primary" id="zcash-shield-coinbase">Shield Coinbase</button>
+					  </div>
+					</div>
+                </td>
+                <td ccID="10177" valign="top" style="padding-left: 8px;">
+
+                    <p ccID="10245">
+                        <label ccID="10274">Available Coins to Shield</label><br ccID="10314"/>
+                        <span ccID="10345" id="zcash-shield-taddresses-info">...</span>
+                    </p>
+
+                </td>
+            </tr>
+        </table>
+        <p ccID="10493"></p>
+
+    </div>
+
+<!-- Contents of Send Many TAB -->
+
+    <div ccID="10560" id="zcashTabSend" class="tabcontent">
+
+        <p ccID="10614">Send your <!-- private z-addr --> coins to the specified t-addr<!-- or z-addr. Note, memos are only supported when sending
+            to a z-addr -->.</p>
+
+        <table ccID="10785" class="cockpit-form-table" width="100%">
+            <tr ccID="10846">
+                <td ccID="10868" valign="top" style="white-space: nowrap;">
+
+                    <div ccID="10938" style="padding-bottom: 6px;">
+                        Sender
+                    </div>
+
+                    <div ccID="11056" class="roundedbox">
+                        <label ccID="11106">From Address</label> <br ccID="11134"/>
+                        <select ccID="11165" id="zcash-send-from">
+                            <option ccID="11224" value="tn1">addr</option>
+                        </select><br ccID="11292"/>
+                        <label ccID="11323">Tx Fee</label> <br ccID="11345"/>
+                        <input ccID="11376" type="text" id="zcash-send-extrafee" value="0.0001"/>
+                    </div>
+
+                    <p ccID="11488"></p>
+                    <button ccID="11517" class="btn btn-default btn-primary" id="zcash-send">Send</button>
+                    <p ccID="11612"></p>
+                    
+
+                    <p ccID="11665">
+                        <label ccID="11694">Available Coins to Send</label><br ccID="11732"/>
+                        <span ccID="11763" id="zcash-shield-taddresses-info">...</span>
+                    </p>
+
+
+                </td>
+                <td ccID="11884" valign="top" style="padding-left: 6px;" width="99%">
+
+                    <div ccID="11964" style="padding-bottom: 6px;">
+                        Recipients (<span ccID="12036" id="zcash-send-to-count">1</span>)
+                        <a ccID="12102" href="#" id="zcash-send-add">Add More</a>
+                    </div>
+
+                    <div ccID="12198" id="zcash-send-to-wrapper" style="margin: 0px; padding: 0px;">
+
+                        <div ccID="12293" class="roundedbox" style="display: inline-block;">
+                            <label ccID="12378">To Address</label> <br ccID="12404"/>
+                            <input ccID="12439" type="text" name="zcash-send-to[]" class="zcash-send-to"/> <br ccID="12505"/>
+                            <label ccID="12540">Send Amount</label> <br ccID="12567"/>
+                            <input ccID="12602" type="text" name="zcash-send-amount[]" class="zcash-send-amount" value="1.00"/> <br ccID="12689"/>
+                            <!-- <label>Memo</label> <br/>
+                            <input type="text" name="zcash-send-memo[]" class="zcash-send-memo"/> <br/> -->
+                        </div>
+
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+        <p ccID="12999"></p>
+
+    </div>
+	
+	<div ccID="13026" id="zcashTabSendTo" class="tabcontent">
+	<table ccID="13073"><tr ccID="13080"><td ccID="13084">
+		<div ccID="13092" id="zcash-send-to-wrapper" style="margin: 0px; padding: 0px;">
+			<div ccID="13164" class="roundedbox" style="display: inline-block;">
+				<label ccID="13225">To Address</label> <br ccID="13251"/>
+				<input ccID="13262" type="text" name="zcash-sendto-to" class="zcash-sendto-to"/> <br ccID="13330"/>
+				<label ccID="13341">Send Amount</label> <br ccID="13368"/>
+				<input ccID="13379" type="text" name="zcash-sendto-amount" class="zcash-sendto-amount" value="1.00"/> <br ccID="13468"/> <br ccID="13474" />
+				<label ccID="13486">Subtract Fee from Amount?</label> <br ccID="13527" /> 
+				<input ccID="13540" type="checkbox" name="zcash-sendto-includefee" class="zcash-sendto-includefee" /> <small ccID="13629">(Checked = Yes)</small> <br ccID="13660"/>
+				<br ccID="13671"/>				
+				<button ccID="13686" class="btn btn-default btn-primary" id="zcash-sendto">Send</button>
+			</div>
+		</div>
+	</td></tr></table>
+    </div>
+
+    <div ccID="13823" id="zcashTabConsole" class="tabcontent">
+        <p ccID="13878">Send commands directly to the zcash-cli. Note, the command argument syntax is not the same as working from a
+            linux command shell. See below.</p>
+        <p ccID="14048">Proper Syntax: <b ccID="14066">z_sendmany TADDR [{"address": "ZADDR", "memo": "48656c6c6f20ceb221", "amount":
+            1.23}]</b><br ccID="14171"/> DoNotSend: z_sendmany "TADDR" "[{\"address\": \"ZADDR\", \"memo\": \"48656c6c6f20ceb221\",
+            \"amount\": 1.23}]"</p>
+        <p ccID="14314">Basic Rules: Do not encapsulate entire arguments in quotes. Do not escape quotes in arguments.</p>
+        <table ccID="14425" class="cockpit-form-table" style="width: 100%;">
+            <tr ccID="14494">
+                <td ccID="14516" style="padding-right: 6px; width: 100%;">
+                    <label ccID="14583" class="control-label">Command: </label>
+                    <input ccID="14651" type="text" id="zcash-cli-input-cmd" style="width: calc(100% - 134px);" value="help"/>
+                    <button ccID="14766" class="btn btn-default btn-primary" id="zcash-cli-input-run">Run</button>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div ccID="14929" id="zcashTabWait" class="tabcontent">
+        <span ccID="14981" id="zcash-wait"></span>
+        <span ccID="15020" id="zcash-wait-status"></span>
+        <div ccID="15066" style="clear: both;"></div>
+    </div>
+
+    <pre ccID="15118" id="zcash-cli-output" style="border-top: 0px;">...</pre>
+
+    <p ccID="15187"></p>
+
+    <p ccID="15202">
+        <span ccID="15215" id="zcash-pid" style="float: left; padding-right: 6px;">...</span>
+        <span ccID="15297" id="zcash-timems">...</span>
+    </p>
+
+    <p ccID="15349">
+        <a ccID="15362" target="_blank" href="http://z.cash/">z.cash</a> ->
+        <a ccID="15426" target="_blank" href="https://github.com/zcash/zcash/blob/master/doc/payment-api.md">Payment API</a> |
+        <a ccID="15541" target="_blank" href="https://github.com/zcash/zcash/wiki/1.0-User-Guide">1.0 User Guide</a> |
+        <a ccID="15648" target="_blank" href="https://github.com/zcash/zcash/wiki/Mining-Guide">Mining Guide</a> |
+        <a ccID="15751" target="_blank" href="https://z.cash/support/faq.html">FAQ</a> |
+        <a ccID="15828" target="_blank" href="https://forum.z.cash/">Forums</a>
+    </p>
+
+    <p ccID="15904"></p>
+</div>
+<script ccID="15921" src="zcash-cli.js"></script>
+<script ccID="15959">
+$("#logo").attr('src', 'logo-'+symbol+'.png');
+$(".csymbol").text(symbol);
+</script>
+</body>
+
+</html>

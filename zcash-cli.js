@@ -632,7 +632,7 @@ function proc_zcash_cli_listunspent(data) {
             if (!taddr_balances.hasOwnProperty(jobj[i]["address"])) {
                 taddr_balances[jobj[i]["address"]] = jobj[i]["amount"];
             } else {
-                taddr_balances[jobj[i]["address"]] = round(taddr_balances[jobj[i]["address"]] + jobj[i]["amount"]);
+                taddr_balances[jobj[i]["address"]] = round(taddr_balances[jobj[i]["address"]] + jobj[i]["amount"] + jobj[i]["segid"]);
             }
         }
     });
