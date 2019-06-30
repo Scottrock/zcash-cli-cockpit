@@ -23,6 +23,7 @@ var zcash_cli_op_running = false;
 // arrays to hold balances for addressses
 var taddr_balances = {}; // t-addr's
 var taddr_segids = {}; // SEG ID's
+var taddr_UTXO = {}; // UTXO Counts
 var shielded_balances = {}; // z-addr's
 var shielded_balance = 0.0; // z-addr total balance
 
@@ -255,6 +256,8 @@ function begin_application() {
     zcash_sending_coins = false;
 
     taddr_balances = {};
+    taddr_segids = {};
+    taddr_UTXO = {};
     shielded_balances = {};
     zcash_send_zaddresses_info.empty();
 
@@ -633,8 +636,10 @@ function proc_zcash_cli_listunspent(data) {
             if (!taddr_balances.hasOwnProperty(jobj[i]["address"])) {
                 taddr_balances[jobj[i]["address"]] = jobj[i]["amount"];
                 taddr_segids[jobj[i]["address"]] = jobj[i]["segid"];
+                taddr_UTXO[jobj[i]["address"]] = 1;
             } else {
                 taddr_balances[jobj[i]["address"]] = round(taddr_balances[jobj[i]["address"]] + jobj[i]["amount"]);
+                taddr_UTXO[jobj[i]["address"]] = round(taddr_UTXO[jobj[i]["address"]] + 1 );
             }
         }
     });
