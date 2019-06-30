@@ -655,7 +655,8 @@ function proc_zcash_cli_listunspent(data) {
             text: shortname
         }));
         // generate html for balances
-        var html = "<b>" + taddr_balances[name] + "</b> <small>"+symbol+"</small> &rarr; <i><small>t-addr:</small> " + name + "</i><br />";
+        //var html = "<b>" + taddr_balances[name] + "</b> <small>"+symbol+"</small> &rarr; <i><small>t-addr:</small> " + name + "</i><br />";
+        var html = "<b>" + taddr_balances[name] + "</b> <small>"+symbol+"</small> &rarr; <i><small>t-addr:</small> " + name + "</i><br />" + segid +;
         zcash_shield_taddresses_info.append(html);
         zcash_balance_taddresses_info.append(html);
     }
