@@ -890,8 +890,8 @@ function zcash_send_add_more(e) {
     html += "<input type=\"text\" name=\"zcash-send-to[]\" class=\"zcash-send-to\" /> <br />";
     html += "<label>Send Amount</label><br />";
     html += "<input type=\"text\" name=\"zcash-send-amount[]\" class=\"zcash-send-amount\" value=\"1.00\" /> <br />";
-    html += "<label>Memo</label><br />";
-    html += "<input type=\"text\" name=\"zcash-send-memo[]\" class=\"zcash-send-memo\" /><br />";
+    //html += "<label>Memo</label><br />";
+    //html += "<input type=\"text\" name=\"zcash-send-memo[]\" class=\"zcash-send-memo\" /><br />";
     html += "</div> ";
 
     zcash_send_to_wrapper.append(html);
