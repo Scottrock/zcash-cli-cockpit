@@ -632,7 +632,7 @@ function proc_zcash_cli_listunspent(data) {
             if (!taddr_balances.hasOwnProperty(jobj[i]["address"])) {
                 taddr_balances[jobj[i]["address"]] = jobj[i]["amount"];
             } else {
-                taddr_balances[jobj[i]["address"]] = round(taddr_balances[jobj[i]["address"]] + jobj[i]["amount"] + jobj[i]["segid"]);
+                taddr_balances[jobj[i]["address"]] = round(taddr_balances[jobj[i]["address"]] + jobj[i]["amount"]);
             }
         }
     });
@@ -655,7 +655,7 @@ function proc_zcash_cli_listunspent(data) {
             text: shortname
         }));
         // generate html for balances
-        var html = "<b>" + taddr_balances[name] + "</b> <small>"+symbol+"</small> &rarr; <i><small>t-addr:</small> " + name + "</i><br />";
+        var html = "<b>" + taddr_balances[name] + "</b> <small>"+symbol+"</small> &rarr; <i><small>t-addr:</small> " + name + "<i><small>segid:</small>" + segid + "<br />" ;
         zcash_shield_taddresses_info.append(html);
         zcash_balance_taddresses_info.append(html);
     }
