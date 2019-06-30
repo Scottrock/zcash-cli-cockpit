@@ -54,15 +54,26 @@
 //var explorer_transactions_url = "http://explorer.myhush.org/tx/";
 
 // Example BTCH Config
-var symbol = "BTCH"
+//var symbol = "BTCH"
+//var zcashd = "komodod";
+//var zcashcli = "komodo-cli";
+//var t_str_init = "^R";
+//var z_str_init = "^z";
+//var switch1 = "-ac_name=BTCH";
+//var switch2 = "-rpcwait";
+//var zcash_getinfo_rate = 60000;
+//var explorer_transaction_url = "https://btch.kmdexplorer.io/tx/";
+
+// Example LABS Config
+var symbol = "LABS"
 var zcashd = "komodod";
 var zcashcli = "komodo-cli";
 var t_str_init = "^R";
 var z_str_init = "^z";
-var switch1 = "-ac_name=BTCH";
+var switch1 = "-ac_name=LABS";
 var switch2 = "-rpcwait";
 var zcash_getinfo_rate = 60000;
-var explorer_transaction_url = "https://btch.kmdexplorer.io/tx/";
+var explorer_transaction_url = "https://labs.explorer.dexstats.info/";
 
 // Example PIRATE Config
 //var symbol = "ARRR"

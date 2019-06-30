@@ -3,7 +3,7 @@
 
     "tools": {
         "pinger": {
-            "label": "zcash-cli",
+            "label": "KMD-Asset",
             "path": "zcash-cli.html"
         }
     },
