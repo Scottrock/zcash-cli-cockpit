@@ -277,7 +277,7 @@ function check_zcash_detection_result() {
     zcash_cli_getaddressesbyaccount();
     zcash_cli_listunspent();
     zcash_cli_listtransactions();
-    zcash_cli_list_zaddr();
+    //zcash_cli_list_zaddr();
 }
 
 function do_zcashd_detection(data) {
