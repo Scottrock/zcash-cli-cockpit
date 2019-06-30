@@ -97,8 +97,8 @@ var zcash_wait = $("#zcash-wait");
 var zcash_wait_status = $("#zcash-wait-status");
 
 // shield tab
-var zcash_shield_taddresses_info = $("#zcash-shield-taddresses-info")
-var zcash_shield_taddresses = $("#zcash-shield-taddresses")
+var zcash_shield_taddresses_info = $("#zcash-shield-taddresses-info");
+var zcash_shield_taddresses = $("#zcash-shield-taddresses");
 var zcash_shield_zaddresses = $("#zcash-shield-zaddresses");
 var zcash_shield_cb_zaddresses = $("#zcash-shield-coinbase-zaddresses");
 var zcash_shield_extra_fee = $("#zcash-shield-extrafee");
@@ -114,6 +114,8 @@ var zcash_send_extra_fee = $("#zcash-send-extrafee");
 var zcash_send_to = $(".zcash-send-to");
 var zcash_send_amount = $(".zcash-send-amount");
 var zcash_send_memo = $(".zcash-send-memo");
+var zcash_shield_taddresses_info = $("#zcash-shield-taddresses-info");
+var zcash_shield_taddresses = $("#zcash-shield-taddresses");
 
 // send to tab
 var zcash_sendto_to = $(".zcash-sendto-to");
