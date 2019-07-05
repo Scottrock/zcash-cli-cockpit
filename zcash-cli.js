@@ -624,16 +624,10 @@ function zcash_cli_listunspent() {
     zcash_balance_taddresses_info.append("<small><i>No coins available.</i></small>");
 }
 
-function sortByKey(array, key) {
-    return array.sort(function(a, b) {
-        var x = a[key]; var y = b[key];
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    });
-}
+
 
 function proc_zcash_cli_listunspent(data) {
-    var init_jobj = JSON.parse(data);
-    var jobj = sortByKey(init_jobj, "segid");
+    var jobj = JSON.parse(data);
     var coinsAvailable = false;
     // gather up spendable balances
     $.each(jobj, function (i) {
