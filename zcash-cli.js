@@ -676,126 +676,126 @@ function proc_zcash_cli_listunspent(data) {
     }
 }
 
-function update_shield_amount() {
-	if (zcash_shield_taddresses.val() != null && taddr_balances[zcash_shield_taddresses.val()] != null) {
-		zcash_shield_amount.val(round(taddr_balances[zcash_shield_taddresses.val()] - zcash_shield_extra_fee.val()));
-	}
-}
+//function update_shield_amount() {
+//	if (zcash_shield_taddresses.val() != null && taddr_balances[zcash_shield_taddresses.val()] != null) {
+//		zcash_shield_amount.val(round(taddr_balances[zcash_shield_taddresses.val()] - zcash_shield_extra_fee.val()));
+//	}
+//}
 
-function do_shield_all(minBal, maxBal, extrafee)
-{
-	var count = 0;
-	var total_shielded = 0.0;
-    for (var name in taddr_balances)
-	{
-		var amount = round(taddr_balances[name] - extrafee);
-		if (amount >= minBal && amount <= maxBal) {
-		  zcash_cli_queued_shield(name.trim(), zcash_shield_zaddresses.val().trim(), amount.toFixed(8), extrafee);
-		  total_shielded += amount;
-		  count++;
-		}
-    }
+//function do_shield_all(minBal, maxBal, extrafee)
+//{
+//	var count = 0;
+//	var total_shielded = 0.0;
+//   for (var name in taddr_balances)
+//	{
+//		var amount = round(taddr_balances[name] - extrafee);
+//		if (amount >= minBal && amount <= maxBal) {
+//		  zcash_cli_queued_shield(name.trim(), zcash_shield_zaddresses.val().trim(), amount.toFixed(8), extrafee);
+//		  total_shielded += amount;
+//		  count++;
+//		}
+//   }
+//
+//	alert("Payment Operations Created: "+ count +"]\nTotal Shielded: "+round(total_shielded).toFixed(8));
+//}
 
-	alert("Payment Operations Created: "+ count +"]\nTotal Shielded: "+round(total_shielded).toFixed(8));
-}
+//function zcash_onClickShieldAll(e) {
+//	do_shield_all(0.0002, 9999999.9, 0.0001);
+//}
 
-function zcash_onClickShieldAll(e) {
-	do_shield_all(0.0002, 9999999.9, 0.0001);
-}
+//function zcash_onClickShieldCoinbase(e) {
+//   if (zcash_cli_op_running == true) {
+//        alert("Operation already in progress...");
+//     return;
+//  }
+//	zcash_cli_shield_coinbase(zcash_shield_zaddresses.val().trim());
+//}
 
-function zcash_onClickShieldCoinbase(e) {
-    if (zcash_cli_op_running == true) {
-        alert("Operation already in progress...");
-        return;
-    }
-	zcash_cli_shield_coinbase(zcash_shield_zaddresses.val().trim());
-}
-
-function zcash_onClickShield(e) {
-    if (zcash_cli_op_running == true) {
-        alert("Operation already in progress...");
-        return;
-    }
-    // make sure we can get a valid balance from the t-addr
-    if (zcash_shield_taddresses.val() == null || taddr_balances[zcash_shield_taddresses.val()] == null) {
-        alert("No coins available to shield!");
-        return;
-    }
-    var extrafee = round(parseFloat(zcash_shield_extra_fee.val().trim()));
-	if (extrafee < 0.0001) {
-		alert("Minimum tx fee is 0.0001");
-        return;
-	}
-    var maxamount = round(taddr_balances[zcash_shield_taddresses.val().trim()] - extrafee);
-    var amount =  round(zcash_shield_amount.val().trim());
-    if (amount == null || amount == NaN || amount <= 0) {
-        alert("Invalid amount entered.");
-        return;
-    }
-	if (extrafee > amount) {
-        alert("Tx Fee can not be greater than amount!");
-        return;
-    }
-    if (amount > maxamount) {
-        alert("Insufficient funds for transaction.\nAvailable amount is " + maxamount + " " + symbol);
-        return;
-    }
-
-    zcash_cli_shield(zcash_shield_taddresses.val().trim(), zcash_shield_zaddresses.val().trim(), amount.toFixed(8), extrafee);
-}
+//function zcash_onClickShield(e) {
+//    if (zcash_cli_op_running == true) {
+//        alert("Operation already in progress...");
+//        return;
+//    }
+//    // make sure we can get a valid balance from the t-addr
+//    if (zcash_shield_taddresses.val() == null || taddr_balances[zcash_shield_taddresses.val()] == null) {
+//        alert("No coins available to shield!");
+//        return;
+//    }
+//    var extrafee = round(parseFloat(zcash_shield_extra_fee.val().trim()));
+//	if (extrafee < 0.0001) {
+//		alert("Minimum tx fee is 0.0001");
+//        return;
+//	}
+//    var maxamount = round(taddr_balances[zcash_shield_taddresses.val().trim()] - extrafee);
+//    var amount =  round(zcash_shield_amount.val().trim());
+//    if (amount == null || amount == NaN || amount <= 0) {
+//        alert("Invalid amount entered.");
+//        return;
+//    }
+//	if (extrafee > amount) {
+//        alert("Tx Fee can not be greater than amount!");
+//        return;
+//    }
+//    if (amount > maxamount) {
+//        alert("Insufficient funds for transaction.\nAvailable amount is " + maxamount + " " + symbol);
+//        return;
+//    }
+//
+//    zcash_cli_shield(zcash_shield_taddresses.val().trim(), zcash_shield_zaddresses.val().trim(), amount.toFixed(8), extrafee);
+//}
 
 
-function zcash_cli_queued_shield(taddr, zaddr, amount, fee) {
-
-	var ztx = "[{\"amount\": " + amount.toString() + ", \"address\": \"" + zaddr.toString() + "\"}]";
-
+//function zcash_cli_queued_shield(taddr, zaddr, amount, fee) {
+//
+//	var ztx = "[{\"amount\": " + amount.toString() + ", \"address\": \"" + zaddr.toString() + "\"}]";
+//
     //zcash_cli_op_running = true;
-    var cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx];
-    if (fee > 0.0001) {
-		cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx, "1", fee.toFixed(8)];
-	}
+//    var cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx];
+//    if (fee > 0.00005) {
+//		cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx, "1", fee.toFixed(8)];
+//	}
 
-    zcash_output.empty();
-    zcash_output.append(cmd.join(" "));
-    var proc = cockpit.spawn(cmd, {
-        err: 'out'
-    });
-    proc.fail(proc_zcash_cli_fail);
-}
+//    zcash_output.empty();
+//    zcash_output.append(cmd.join(" "));
+//    var proc = cockpit.spawn(cmd, {
+//        err: 'out'
+//    });
+//    proc.fail(proc_zcash_cli_fail);
+//}
 
-function zcash_cli_shield(taddr, zaddr, amount, fee) {
+//function zcash_cli_shield(taddr, zaddr, amount, fee) {
+//
+//    var ztx = "[{\"amount\": " + amount.toString() + ", \"address\": \"" + zaddr.toString() + "\"}]";
+//
+//    zcash_cli_op_running = true;
+//    var cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx];
+//    if (fee > 0.00005) {
+//		cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx, "1", fee.toFixed(8)];
+//	}
 
-    var ztx = "[{\"amount\": " + amount.toString() + ", \"address\": \"" + zaddr.toString() + "\"}]";
+//    zcash_output.empty();
+//    zcash_output.append(cmd.join(" "));
 
-    zcash_cli_op_running = true;
-    var cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx];
-    if (fee > 0.0001) {
-		cmd = [zcashcli, switch1, switch2, "z_sendmany", taddr, ztx, "1", fee.toFixed(8)];
-	}
+//    zcash_wait_operation_start("Shielding Coins...");
+//    var proc = cockpit.spawn(cmd, {
+//        err: 'out'
+//    });
+//    proc.done(proc_zcash_cli_send_opid);
+//    proc.fail(proc_zcash_cli_fail);
+//}
 
-    zcash_output.empty();
-    zcash_output.append(cmd.join(" "));
-
-    zcash_wait_operation_start("Shielding Coins...");
-    var proc = cockpit.spawn(cmd, {
-        err: 'out'
-    });
-    proc.done(proc_zcash_cli_send_opid);
-    proc.fail(proc_zcash_cli_fail);
-}
-
-function zcash_cli_shield_coinbase(zaddr) {
-
-    zcash_cli_op_running = true;
-    var cmd = [zcashcli, switch1, switch2, "z_shieldcoinbase", "*", zaddr];
-    zcash_output.empty();
-    zcash_output.append(cmd.join(" "));
-    var proc = cockpit.spawn(cmd, {
-        err: 'out'
-    });
-    proc.done(proc_zcash_cli_output);
-    proc.fail(proc_zcash_cli_fail);
-}
+//function zcash_cli_shield_coinbase(zaddr) {
+//
+//    zcash_cli_op_running = true;
+//    var cmd = [zcashcli, switch1, switch2, "z_shieldcoinbase", "*", zaddr];
+//    zcash_output.empty();
+//    zcash_output.append(cmd.join(" "));
+//    var proc = cockpit.spawn(cmd, {
+//        err: 'out'
+//    });
+//    proc.done(proc_zcash_cli_output);
+//    proc.fail(proc_zcash_cli_fail);
+//}
 
 //
 // Send Tab
@@ -827,40 +827,40 @@ function proc_zcash_cli_zaddr(data) {
     });
 
     // do we need to generate a zaddr?
-    if (shielded_balances[jobj[0]] == null) {
-        alert("Private z-addr not found, generating a new private z-addr!");
-        var cmd = [zcashcli, switch1, switch2, "z_getnewaddress"];
-        var proc = cockpit.spawn(cmd, {
-            err: 'out'
-        });
-        proc.done(zcash_cli_list_zaddr);
-        proc.fail(proc_zcash_cli_fail);
-        return;
-    }
+//    if (shielded_balances[jobj[0]] == null) {
+//        alert("Private z-addr not found, generating a new private z-addr!");
+//        var cmd = [zcashcli, switch1, switch2, "z_getnewaddress"];
+//        var proc = cockpit.spawn(cmd, {
+//            err: 'out'
+//        });
+//        proc.done(zcash_cli_list_zaddr);
+//        proc.fail(proc_zcash_cli_fail);
+//        return;
+//    }
 
     // generate html
-    for (var name in shielded_balances) {
-        var shortname = name.substring(0, 7) + "..." + name.substring((name.toString().length - 7));
-        // populate shield tab select options
-        zcash_shield_zaddresses.append($("<option/>", {
-            value: name,
-            text: shortname
-        }));
-		zcash_shield_cb_zaddresses.append($("<option/>", {
-            value: name,
-            text: shortname
-        }));
-        // populate send tab select options
-        zcash_send_from.append($("<option/>", {
-            value: name,
-            text: shortname
-        }));
+//    for (var name in shielded_balances) {
+//        var shortname = name.substring(0, 7) + "..." + name.substring((name.toString().length - 7));
+//        // populate shield tab select options
+//        zcash_shield_zaddresses.append($("<option/>", {
+//            value: name,
+//            text: shortname
+//        }));
+//		zcash_shield_cb_zaddresses.append($("<option/>", {
+//            value: name,
+//            text: shortname
+//        }));
+//        // populate send tab select options
+//        zcash_send_from.append($("<option/>", {
+//            value: name,
+//            text: shortname
+//        }));
         // generate html for balances
-        var html = " <b><span id=\"" + name + "\">...</span></b> <small>"+symbol+"</small> &rarr; <i><small>z-addr:</small> <span id=\"view" + name + "\" ondblclick=\"show_z_listreceivedbyaddress('" + name + "');\">" + name + "</span></i><br />";
-        zcash_send_zaddresses_info.append(html);
+//        var html = " <b><span id=\"" + name + "\">...</span></b> <small>"+symbol+"</small> &rarr; <i><small>z-addr:</small> <span id=\"view" + name + "\" ondblclick=\"show_z_listreceivedbyaddress('" + name + "');\">" + name + "</span></i><br />";
+//        zcash_send_zaddresses_info.append(html);
         // lookup balance for zaddr
-        zcash_cli_getbalance_for_zaddr(name);
-    }
+//        zcash_cli_getbalance_for_zaddr(name);
+//    }
 
     for (var name in taddr_balances) {
         var shortname = name.substring(0, 7) + "..." + name.substring((name.toString().length - 7)).trim();
